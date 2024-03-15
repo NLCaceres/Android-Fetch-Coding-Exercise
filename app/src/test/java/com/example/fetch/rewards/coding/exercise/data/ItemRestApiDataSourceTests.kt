@@ -18,7 +18,7 @@ class ItemRestApiDataSourceTests {
   val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
   @Test fun `Get Items from API`() = runTest {
-    val itemList = listOf(Item("123", "Foo", "1"), Item("321", "Bar", "2"))
+    val itemList = listOf(Item(123, "Foo", 1), Item(321, "Bar", 2))
     val itemAPI = mock<ItemService> { onBlocking { getItems() } doReturn Response.success(itemList) }
 
     val itemDataSource = ItemRestApiDataSource(itemAPI)

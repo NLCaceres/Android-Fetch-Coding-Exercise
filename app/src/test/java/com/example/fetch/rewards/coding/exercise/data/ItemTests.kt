@@ -5,18 +5,16 @@ import org.junit.Assert.assertEquals
 
 class ItemTests {
   @Test fun `Convert Item to Readable String`() {
-    val simpleItem = Item("123", "bar", "12")
+    val simpleItem = Item(123, "bar", 12)
     // WHEN the item has a simple ID, name and list ID, THEN it is filled in as follows
-    assertEquals(simpleItem.toString(), "Item #123 named 'Bar' from List #12")
+    assertEquals(simpleItem.toString(), "Item #123 from List #12 is named 'Bar'")
 
-    val missingListIdItem = Item("321", "FOO", "")
-    // WHEN the name is already all capital letters, THEN it remains the same
-    // WHEN the listID is missing, THEN it is noted that it has no List
-    assertEquals(missingListIdItem.toString(), "Item #321 named 'FOO' from no list")
+    val nullNameItem = Item(321, null, 10)
+    // WHEN the name is null, THEN the string will mention the name is missing
+    assertEquals(nullNameItem.toString(), "Item #321 from List #10 is missing a name")
 
-    val oddItem = Item("abc", "123", "def")
-    // Whether or not the Strings  provided by the API for id, name and listID make sense
-    // The Item will use them for its toString() via interpolation anyway
-    assertEquals(oddItem.toString(), "Item #abc named '123' from List #def")
+    val whitespaceNamedItem = Item(135, "    ", 24)
+    // WHEN the name is just whitespace (blank or empty), THEN the string will mention the name is missing
+    assertEquals(whitespaceNamedItem.toString(), "Item #135 from List #24 is missing a name")
   }
 }

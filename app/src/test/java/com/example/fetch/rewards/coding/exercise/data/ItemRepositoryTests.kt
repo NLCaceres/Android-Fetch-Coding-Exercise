@@ -25,7 +25,7 @@ class ItemRepositoryTests {
   lateinit var itemsCollector: FlowCollector<List<Item>>
 
   @Test fun `Get Items from API Data Source`() = runTest {
-    val itemList = listOf(Item("123", "Foo", "1"), Item("321", "Bar", "2"))
+    val itemList = listOf(Item(123, "Foo", 1), Item(321, "Bar", 2))
     val itemDataSource = mock<ItemDataSource> { onBlocking { getItems() } doReturn Result.success(itemList) }
     val itemRepository = AppItemRepository(itemDataSource, mainDispatcherRule.testDispatcher)
 
