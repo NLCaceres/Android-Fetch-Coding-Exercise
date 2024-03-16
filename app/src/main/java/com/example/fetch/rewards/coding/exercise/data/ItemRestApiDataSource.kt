@@ -1,12 +1,13 @@
 package com.example.fetch.rewards.coding.exercise.data
 
 import com.example.fetch.rewards.coding.exercise.utility.getRetrofitBuilder
+import javax.inject.Inject
 
 interface ItemDataSource {
   suspend fun getItems(): Result<List<Item>>
 }
 
-class ItemRestApiDataSource(private val itemAPI: ItemService = getItemService()): ItemDataSource {
+class ItemRestApiDataSource @Inject constructor(private val itemAPI: ItemService): ItemDataSource {
   override suspend fun getItems(): Result<List<Item>> {
     val response = try { itemAPI.getItems() } catch (e: Exception) { return Result.failure(e) }
 

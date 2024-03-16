@@ -1,17 +1,18 @@
 package com.example.fetch.rewards.coding.exercise.data
 
+import com.example.fetch.rewards.coding.exercise.utility.AppModule
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 interface ItemRepository {
   fun getItems(): Flow<List<Item>>
 }
 
-class AppItemRepository(private val itemRestApiDataSource: ItemDataSource = ItemRestApiDataSource(),
-                        private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO): ItemRepository {
+class AppItemRepository @Inject constructor(@AppModule.RestApiDataSource private val itemRestApiDataSource: ItemDataSource,
+                                            private val ioDispatcher: CoroutineDispatcher): ItemRepository {
 
   override fun getItems(): Flow<List<Item>> {
     return flow {
