@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-  namespace = "com.example.fetch.rewards.coding.exercise"
+  namespace = "com.nlcaceres.fetch.rewards.coding.exercise"
   compileSdk = 34
 
   defaultConfig {
-    applicationId = "com.example.fetch.rewards.coding.exercise"
+    applicationId = "com.nlcaceres.fetch.rewards.coding.exercise"
     minSdk = 26
     targetSdk = 34
     versionCode = 1
