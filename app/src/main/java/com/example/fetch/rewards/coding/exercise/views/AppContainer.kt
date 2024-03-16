@@ -1,4 +1,4 @@
-package com.example.fetch.rewards.coding.exercise.views.itemList
+package com.example.fetch.rewards.coding.exercise.views
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues

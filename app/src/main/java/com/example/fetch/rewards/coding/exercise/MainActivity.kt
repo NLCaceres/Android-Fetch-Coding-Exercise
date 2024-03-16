@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import com.example.fetch.rewards.coding.exercise.ui.theme.FetchRewardsCodingExerciseTheme
-import com.example.fetch.rewards.coding.exercise.views.itemList.AppContainer
+import com.example.fetch.rewards.coding.exercise.views.AppContainer
 import com.example.fetch.rewards.coding.exercise.views.itemList.ItemListView
 import dagger.hilt.android.AndroidEntryPoint
 
