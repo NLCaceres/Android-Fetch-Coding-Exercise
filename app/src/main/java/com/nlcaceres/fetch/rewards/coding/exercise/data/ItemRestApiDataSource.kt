@@ -1,6 +1,5 @@
 package com.nlcaceres.fetch.rewards.coding.exercise.data
 
-import com.nlcaceres.fetch.rewards.coding.exercise.utility.getRetrofitBuilder
 import javax.inject.Inject
 
 interface ItemDataSource {
@@ -20,5 +19,3 @@ class ItemRestApiDataSource @Inject constructor(private val itemAPI: ItemService
     return if (responseBody != null) Result.success(responseBody) else Result.failure(Exception("Empty response body"))
   }
 }
-
-fun getItemService(): ItemService = getRetrofitBuilder().create(ItemService::class.java)
