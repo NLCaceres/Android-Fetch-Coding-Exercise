@@ -17,6 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nlcaceres.fetch.rewards.coding.exercise.R
 
+/** A Circular Floating Action Button with an Upward Arrow Icon, laid out in the top center area of the composition
+ * Its onClick parameter should run a func that scrolls up the parent or nearby list composition
+ * */
 @Composable
 fun ScrollUpButton(onClick: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
