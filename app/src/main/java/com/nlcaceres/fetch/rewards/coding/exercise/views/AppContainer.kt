@@ -1,5 +1,6 @@
 package com.nlcaceres.fetch.rewards.coding.exercise.views
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +29,8 @@ fun AppContainer(content: @Composable (PaddingValues) -> Unit) {
     }
 }
 
-@Preview(widthDp = 400, heightDp = 800, showBackground = true, apiLevel = 33)
+@Preview(showBackground = true, apiLevel = 33, uiMode = Configuration.UI_MODE_NIGHT_YES, name = "DefaultPreviewDark")
+@Preview(showBackground = true, apiLevel = 33, uiMode = Configuration.UI_MODE_NIGHT_NO, name = "DefaultPreviewLight")
 @Composable
 fun HomeViewPreview() {
     FetchRewardsCodingExerciseTheme {
