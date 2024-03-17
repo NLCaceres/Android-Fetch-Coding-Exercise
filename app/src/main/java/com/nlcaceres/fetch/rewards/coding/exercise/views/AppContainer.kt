@@ -9,13 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nlcaceres.fetch.rewards.coding.exercise.ui.theme.FetchRewardsCodingExerciseTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContainer(content: @Composable (PaddingValues) -> Unit) {
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background, tonalElevation = 10.dp) {
         Scaffold(topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("Item List", fontSize = 40.sp, fontWeight = FontWeight.Bold) },
