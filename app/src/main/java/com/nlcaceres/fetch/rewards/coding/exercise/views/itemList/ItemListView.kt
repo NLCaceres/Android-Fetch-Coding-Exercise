@@ -5,13 +5,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import com.nlcaceres.fetch.rewards.coding.exercise.data.Item
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,16 +24,30 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.ErrorMessage
 import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.LoadingView
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemListView(modifier: Modifier = Modifier, viewModel: ItemListViewModel = viewModel()) {
   val items by viewModel.itemListFlow.collectAsStateWithLifecycle()
   val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
   val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()
 
-  Box(modifier.then(Modifier.fillMaxSize())) {
-    ItemList(items)
+  val pullToRefreshState = rememberPullToRefreshState(100.dp)
+  if (pullToRefreshState.isRefreshing) {
+    // This effect works slightly different, running if the pullToRefresh indicator is pulled, every time
+    LaunchedEffect(true) { // Despite normally launchedEffect(true) would ONLY run once EVER
+      viewModel.refreshItems()
+    }
+  }
+  LaunchedEffect(isLoading) { // Calls this effect for every change to loading state
+    if (isLoading) { return@LaunchedEffect } // Early return to let indicator stay visible if fetch is still loading
+    pullToRefreshState.endRefresh() // Remove indicator when loading finishes/false
+  }
 
-    if (isLoading) {
+  Box(modifier.then(Modifier.fillMaxSize().nestedScroll(pullToRefreshState.nestedScrollConnection))) {
+    ItemList(items)
+    PullToRefreshContainer(pullToRefreshState, Modifier.align(Alignment.TopCenter))
+
+    if (!pullToRefreshState.isRefreshing && isLoading) { // Only show loading indicator OR the refresh indicator, NEVER both
       LoadingView(Modifier.align(BiasAlignment(0f, -0.15f)))
     }
     else if (errorMessage.isNotBlank()) {
