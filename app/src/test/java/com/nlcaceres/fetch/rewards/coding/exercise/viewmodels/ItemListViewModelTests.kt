@@ -128,6 +128,34 @@ class ItemListViewModelTests {
             itemListViewModel.itemListFlow.collect()
         }
     }
+    @Test fun testRefreshingItems() = runTest {
+        val firstItemList = listOf(
+            Item(2, "Foo", 1), Item(1, "Bar", 2),
+            Item(3, "Fizz", 2), Item(6, "Buzz", 3),
+            Item(4, "Abc", 3), Item(8, "Def", 3)
+        )
+        val itemRepository = mock<ItemRepository> { onBlocking { getItems() } doReturn flow { emit(firstItemList) } }
+        val itemListViewModel = ItemListViewModel(itemRepository, mainDispatcherRule.testDispatcher)
+        assertEquals(0, itemListViewModel.itemListFlow.value.entries.size)
+
+        var itemListUpdates = 0 // Used to count how many values have been emitted
+        backgroundScope.launch(mainDispatcherRule.testDispatcher) {
+            itemListViewModel.itemListFlow.collect { itemListUpdates++ }
+        }
+        // WHEN the itemFlowList StateFlow is initially collected, THEN TWO values are emitted and received: --[]---[1: [], 2: [], 3: []]--->
+        assertEquals(2, itemListUpdates)
+        // AND itemListFlow's most recent value is firstItemList, which is grouped into 3 key-val pairs (list #1, #2 and #3)
+        assertEquals(3, itemListViewModel.itemListFlow.value.entries.size)
+
+        val secondItemList = listOf(Item(2, "Car", 1), Item(1, "Fox", 2))
+        whenever(itemRepository.getItems()).thenReturn(flow { emit(secondItemList) })
+        // WHEN a refresh request is made
+        itemListViewModel.refreshItems()
+        // THEN the flow() is recollected, emitting a 3rd value
+        assertEquals(3, itemListUpdates)
+        // AND itemListFlow's new value is now secondItemList, grouped into 2 key-val pairs (list #1 and #2)
+        assertEquals(2, itemListViewModel.itemListFlow.value.entries.size)
+    }
     @Test fun testItemFlowThrows() = runTest {
         // In order for itemListFlow to catch() anything, the mock flow must throw, NOT getItems(), hence this doReturn below
         val itemRepository = mock<ItemRepository> { onBlocking { getItems() } doReturn flow { throw Exception() } }
