@@ -16,23 +16,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/** A simple error message elevated above the main content
- * Since this composable is intended to appear elevated, a Box container is recommended
- */
+/** A simple error message elevated both tonally and with shadow above the composition */
 @Composable
 fun ErrorMessage(errorMessage: String, modifier: Modifier = Modifier) {
-    Surface(modifier.then(Modifier.padding(25.dp, 0.dp)), RoundedCornerShape(15.dp),
-        MaterialTheme.colorScheme.primaryContainer, tonalElevation = 10.dp, shadowElevation = 5.dp
-    ) {
-        Text(errorMessage, Modifier.padding(25.dp, 30.dp),
-            fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center
-        )
+    Box(Modifier.fillMaxSize()) {
+        Surface(modifier.then(Modifier.padding(25.dp, 0.dp)), RoundedCornerShape(15.dp),
+            MaterialTheme.colorScheme.errorContainer, tonalElevation = 10.dp, shadowElevation = 5.dp
+        ) {
+            Text(errorMessage, Modifier.padding(25.dp, 30.dp),
+                fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ErrorMessagePreview() {
+    // Works well even with a nested Box
     Box(Modifier.fillMaxSize()) {
         ErrorMessage("Sorry! Currently experiencing issues!", Modifier.align(BiasAlignment(0f, -0.15f)))
     }
