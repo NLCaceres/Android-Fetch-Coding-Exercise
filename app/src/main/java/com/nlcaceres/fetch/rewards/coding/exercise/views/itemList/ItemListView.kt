@@ -1,11 +1,13 @@
 package com.nlcaceres.fetch.rewards.coding.exercise.views.itemList
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import com.nlcaceres.fetch.rewards.coding.exercise.data.Item
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -23,6 +25,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.ErrorMessage
 import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.LoadingView
+import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.ScrollUpButton
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +63,12 @@ fun ItemListView(modifier: Modifier = Modifier, viewModel: ItemListViewModel = v
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ItemList(itemListMap: Map<Int, List<Item>>) {
-  LazyColumn {
+  val coroutineScope = rememberCoroutineScope()
+  val listState = rememberLazyListState()
+  // derivedState helps limit state updates of listState (similar to Kotlin Flow's distinctUntilChanged)
+  val showScrollUpButton by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+
+  LazyColumn(state = listState) {
     itemListMap.forEach { (listID, itemList) ->
       stickyHeader {
         Text(
@@ -75,6 +84,9 @@ fun ItemList(itemListMap: Map<Int, List<Item>>) {
         }
       }
     }
+  }
+  AnimatedVisibility(showScrollUpButton) {
+    ScrollUpButton(onClick = { coroutineScope.launch { listState.animateScrollToItem(0) } })
   }
 }
 
