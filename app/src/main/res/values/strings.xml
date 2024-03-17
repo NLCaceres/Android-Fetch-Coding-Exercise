@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Fetch Rewards Coding Exercise</string>
+  <string name="scroll_up_button">Scroll to top</string>
 </resources>
