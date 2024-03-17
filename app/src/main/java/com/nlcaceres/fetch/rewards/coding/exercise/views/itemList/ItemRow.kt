@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ItemRow(itemName: String) {
-  Row(Modifier.fillMaxWidth()) {
+fun ItemRow(itemName: String, modifier: Modifier = Modifier) {
+  Row(modifier.then(Modifier.fillMaxWidth())) {
     Text(itemName, Modifier.padding(20.dp, 20.dp), fontSize = 16.sp, fontWeight = FontWeight.Medium)
   }
 }

@@ -22,7 +22,7 @@ import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.ErrorMessage
 import com.nlcaceres.fetch.rewards.coding.exercise.views.reusable.LoadingView
 
 @Composable
-fun ItemListView(modifier: Modifier, viewModel: ItemListViewModel = viewModel()) {
+fun ItemListView(modifier: Modifier = Modifier, viewModel: ItemListViewModel = viewModel()) {
   val items by viewModel.itemListFlow.collectAsStateWithLifecycle()
   val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
   val errorMessage by viewModel.errorMessage.collectAsStateWithLifecycle()

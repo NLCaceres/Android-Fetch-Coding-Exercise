@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
  * Since this composable is intended to appear elevated, a Box container is recommended
  */
 @Composable
-fun ErrorMessage(errorMessage: String, modifier: Modifier) {
+fun ErrorMessage(errorMessage: String, modifier: Modifier = Modifier) {
     Surface(modifier.then(Modifier.padding(25.dp, 0.dp)), RoundedCornerShape(15.dp),
         MaterialTheme.colorScheme.primaryContainer, tonalElevation = 10.dp, shadowElevation = 5.dp
     ) {

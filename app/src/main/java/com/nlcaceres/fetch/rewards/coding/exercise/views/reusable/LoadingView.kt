@@ -18,7 +18,7 @@ import kotlinx.coroutines.delay
  * or simply removed from the UI eventually. If it is not removed, then its launchedEffect will continue forever
  */
 @Composable
-fun LoadingView(modifier: Modifier) {
+fun LoadingView(modifier: Modifier = Modifier) {
     var loadingIndex by remember { mutableStateOf(0) }
     val loadingTextValues = listOf("Loading!", "Still working on it!", "Should finish loading soon!")
     val loadingText = loadingTextValues[loadingIndex]
