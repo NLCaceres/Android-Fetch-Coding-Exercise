@@ -1,5 +1,7 @@
 package com.nlcaceres.fetch.rewards.coding.exercise.utility
 
+import android.content.Context
+import androidx.room.Room
 import com.nlcaceres.fetch.rewards.coding.exercise.data.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -7,6 +9,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Converter.Factory
@@ -39,6 +42,15 @@ abstract class AppModule {
         @Singleton
         @Provides
         fun provideItemService(retrofit: Retrofit): ItemService = retrofit.create(ItemService::class.java)
+
+        @Singleton
+        @Provides
+        fun provideRoomDb(@ApplicationContext applicationContext: Context) =
+            Room.databaseBuilder(applicationContext, AppDatabase::class.java, "fetch-rewards-coding-exercise-db").build()
+
+        @Singleton
+        @Provides
+        fun provideItemDao(database: AppDatabase) = database.itemDao()
     }
 
     // Qualifiers help differentiate different implementations of various interfaces
