@@ -60,6 +60,9 @@ dependencies {
   implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
   implementation("com.google.dagger:hilt-android:2.51")
   ksp("com.google.dagger:hilt-compiler:2.51")
+  implementation("androidx.room:room-runtime:2.6.1")
+  implementation("androidx.room:room-ktx:2.6.1")
+  ksp("androidx.room:room-compiler:2.6.1")
 
   implementation(platform("androidx.compose:compose-bom:2024.02.02"))
   implementation("androidx.compose.ui:ui")
